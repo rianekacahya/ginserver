@@ -37,17 +37,6 @@ func Logger() gin.HandlerFunc {
 		response := dump.body.String()
 
 		if c.Writer.Status() >= http.StatusOK && c.Writer.Status() < http.StatusMultipleChoices {
-			reqMessage := json.RawMessage(`""`)
-			resMessage := json.RawMessage(`""`)
-
-			if len(request) > 0 {
-				reqMessage = json.RawMessage(request)
-			}
-
-			if len(response) > 0 {
-				resMessage = json.RawMessage(response)
-			}
-
 			logger.Info(
 				"http",
 				zap.Int("status", c.Writer.Status()),
@@ -57,8 +46,8 @@ func Logger() gin.HandlerFunc {
 				zap.String("method", c.Request.Method),
 				zap.String("path", c.Request.URL.Path),
 				zap.String("query", c.Request.URL.RawQuery),
-				zap.Any("req", reqMessage),
-				zap.Any("res", resMessage),
+				zap.Any("req", json.RawMessage(request)),
+				zap.Any("res", json.RawMessage(response)),
 			)
 		}
 	}
