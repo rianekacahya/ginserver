@@ -38,9 +38,10 @@ func Error(c *gin.Context, err error) {
 		}
 
 		if errorStatus != errors.NOTYPE {
-			if e, ok := err.(error); ok {
-				response.Message = e.Error()
-			}else{
+			switch errorMessage.(type) {
+			case errors.Custom:
+				response.Message = errorMessage.Error()
+			default:
 				response.Message = errorMessage
 			}
 		}
