@@ -41,6 +41,7 @@ func InitServer() {
 	GetServer().Use(cors.Default())
 	GetServer().Use(middleware.Recovery())
 	GetServer().Use(middleware.Headers())
+	GetServer().Use(middleware.Logger())
 
 	// healthCheck endpoint
 	GetServer().GET("/infrastructure/healthcheck", func(c *gin.Context) {
